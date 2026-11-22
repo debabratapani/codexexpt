@@ -104,11 +104,19 @@ function drawRiver() {
   fill(67, 142, 183);
   beginShape();
   vertex(674, 416);
-  bezierVertex(571, 445, 488, 456, 418, 485);
-  bezierVertex(270, 540, 215, 615, 0, 653);
+  bezierVertex(571, 445);
+  bezierVertex(488, 456);
+  bezierVertex(418, 485);
+  bezierVertex(270, 540);
+  bezierVertex(215, 615);
+  bezierVertex(0, 653);
   vertex(0, 765);
-  bezierVertex(240, 692, 337, 613, 470, 544);
-  bezierVertex(559, 502, 627, 453, 674, 416);
+  bezierVertex(240, 692);
+  bezierVertex(337, 613);
+  bezierVertex(470, 544);
+  bezierVertex(559, 502);
+  bezierVertex(627, 453);
+  bezierVertex(674, 416);
   endShape(CLOSE);
 
   // Fine blue/white water ripples.
@@ -127,8 +135,12 @@ function drawRiver() {
   noFill();
   beginShape();
   vertex(0, 765);
-  bezierVertex(240, 692, 337, 613, 470, 544);
-  bezierVertex(559, 502, 627, 453, 674, 416);
+  bezierVertex(240, 692);
+  bezierVertex(337, 613);
+  bezierVertex(470, 544);
+  bezierVertex(559, 502);
+  bezierVertex(627, 453);
+  bezierVertex(674, 416);
   endShape();
 }
 
@@ -154,20 +166,36 @@ function drawRoad() {
   fill(117, 111, 75, 70);
   beginShape();
   vertex(15, 799);
-  bezierVertex(210, 709, 357, 605, 520, 523);
-  bezierVertex(586, 489, 651, 466, 731, 465);
+  bezierVertex(210, 709);
+  bezierVertex(357, 605);
+  bezierVertex(520, 523);
+  bezierVertex(586, 489);
+  bezierVertex(651, 466);
+  bezierVertex(731, 465);
   vertex(744, 481);
-  bezierVertex(658, 482, 600, 512, 536, 546);
-  bezierVertex(375, 640, 205, 757, 86, 800);
+  bezierVertex(658, 482);
+  bezierVertex(600, 512);
+  bezierVertex(536, 546);
+  bezierVertex(375, 640);
+  bezierVertex(205, 757);
+  bezierVertex(86, 800);
   endShape(CLOSE);
   fill(231, 197, 143);
   beginShape();
   vertex(28, 799);
-  bezierVertex(216, 709, 367, 615, 527, 528);
-  bezierVertex(593, 492, 654, 474, 728, 469);
+  bezierVertex(216, 709);
+  bezierVertex(367, 615);
+  bezierVertex(527, 528);
+  bezierVertex(593, 492);
+  bezierVertex(654, 474);
+  bezierVertex(728, 469);
   vertex(738, 478);
-  bezierVertex(651, 485, 596, 515, 533, 544);
-  bezierVertex(380, 633, 221, 742, 71, 800);
+  bezierVertex(651, 485);
+  bezierVertex(596, 515);
+  bezierVertex(533, 544);
+  bezierVertex(380, 633);
+  bezierVertex(221, 742);
+  bezierVertex(71, 800);
   endShape(CLOSE);
   // Occasional sandy pencil strokes.
   stroke(157, 129, 93, 55);
