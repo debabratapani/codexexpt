@@ -20,4 +20,4 @@ Press **S** to save a PNG.
 
 Edit constants `W`, `H` and `SEED` in `sketch.js`. Dedicated functions control the mountains, river, road, lane, cottage, birds, trees and pastel-like grain.
 
-This is a deterministic procedural approximation of the childhood drawing, not an exact recreation of the earlier AI-generated picture. It has not been browser-rendered or visually tested here.
+The sketch is a deterministic procedural interpretation of the childhood drawing. It uses clipped, layered pencil strokes and paper grain for the pastel finish.
