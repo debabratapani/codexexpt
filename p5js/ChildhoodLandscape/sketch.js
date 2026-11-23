@@ -57,6 +57,7 @@ function draw() {
   drawFlowers(grass);
   drawTrees();
   drawCottage();
+  drawForegroundDetails();
   drawBirds();
   drawPaper();
 }
@@ -316,6 +317,87 @@ function drawCottage() {
   line(905, 562, 906, 589);
   line(890, 578, 922, 573);
   pop();
+}
+
+function drawForegroundDetails() {
+  randomSeed(SEED + 57);
+  drawFence([[494, 514], [546, 484], [599, 455], [645, 430], [693, 402], [715, 378], [745, 369], [779, 362]]);
+  drawFence([[663, 674], [621, 633], [617, 595], [646, 556], [695, 515], [735, 480], [770, 446], [782, 420]]);
+  drawFence([[1046, 528], [1086, 532], [1124, 533], [1163, 535], [1199, 539]]);
+
+  const rocks = paint('M78 589 L85 572 L114 548 Q135 537 151 555 L174 576 L151 584 L123 583 L104 595 Z M165 587 L179 567 L198 562 L215 580 L201 586 Z',
+    '#988f92', '#827578', 1.5);
+  hatch(rocks, [78, 538, 217, 595], 2150, ['#ead5c5', '#625f72', '#c7b9b5'], [9, -8], .47);
+  for (const [x, y, size] of [
+    [52, 685, 1.45], [191, 649, 1.2], [308, 594, 1.12], [397, 544, .98],
+    [439, 507, .84], [511, 479, .72], [567, 452, .61], [640, 425, .49],
+    [94, 457, .89], [205, 437, .70], [321, 416, .72], [419, 397, .61],
+    [831, 574, .87], [937, 638, 1.1], [1087, 730, 1.16], [1174, 650, 1.05],
+    [96, 783, 1.42], [237, 777, 1.45], [825, 746, 1.16], [967, 711, .91]
+  ]) drawGrassTuft(x, y, size);
+
+  for (const [x, y, radius, count] of [
+    [98, 717, 51, 17], [1131, 689, 112, 31], [824, 491, 52, 16],
+    [1039, 523, 35, 13], [1177, 475, 38, 12]
+  ]) {
+    for (let i = 0; i < count; i++) {
+      const angle = random(TWO_PI);
+      const distance = Math.sqrt(random()) * radius;
+      const stemX = x + Math.cos(angle) * distance;
+      const stemY = y + Math.sin(angle) * distance * .68;
+      const size = random(radius < 55 ? 2.4 : 3.9, radius < 55 ? 5 : 7.5);
+      const top = stemY - random(9, 25);
+      stroke(random(['#598247', '#77a454', '#438751']));
+      strokeWeight(1.25);
+      line(stemX + size, stemY, stemX, top);
+      line(stemX + size / 2, (stemY + top) / 2, stemX - size, top + size);
+      const petals = random(['#e6758e', '#e5816f', '#e593a0', '#ce5570']);
+      stroke(petals);
+      strokeWeight(1);
+      fill('#f7b1a4');
+      for (let petal = 0; petal < 5; petal++) {
+        const turn = angle + petal * TWO_PI / 5;
+        circle(stemX + Math.cos(turn) * size * .69, top + Math.sin(turn) * size * .64, size);
+      }
+      noStroke();
+      fill('#efbe53');
+      circle(stemX, top, size * .75);
+    }
+  }
+}
+
+function drawGrassTuft(x, y, size) {
+  noFill();
+  for (let blade = 0; blade < 25; blade++) {
+    const root = x + random(-19, 19) * size;
+    const lean = random(-23, 23) * size;
+    const height = random(8, 31) * size;
+    stroke(random(['#39844e', '#599e53', '#83a75a', '#b3c158']));
+    strokeWeight(random(.65, 1.65));
+    bezier(root, y, root + lean * .12, y - height * .45,
+      root + lean * .55, y - height * .87, root + lean, y - height);
+  }
+}
+
+function drawFence(posts) {
+  const top = (y) => 7 + (y - 330) * .13;
+  for (let i = 1; i < posts.length; i++) {
+    const [x, y] = posts[i - 1];
+    const [nextX, nextY] = posts[i];
+    stroke('#9a6346');
+    strokeWeight(1.7);
+    for (const height of [.28, .7]) {
+      line(x, y - top(y) * height, nextX, nextY - top(nextY) * height);
+    }
+  }
+  for (const [x, y] of posts) {
+    stroke('#885940');
+    strokeWeight(1.7 + (y - 330) * .005);
+    line(x, y, x + 1, y - top(y));
+    stroke('#cc9d69');
+    strokeWeight(.9);
+    line(x - .6, y - 2, x, y - top(y) + 2);
+  }
 }
 
 function drawBirds() {
