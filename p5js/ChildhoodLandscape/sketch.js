@@ -11,6 +11,19 @@ const road = 'M679 440 C715 450 683 478 627 499 C566 521 583 552 611 577 C651 61
 const lane = 'M622 593 C680 564 724 568 763 594 S810 624 856 619 L858 630 C805 638 783 619 757 602 S684 577 630 606 Z';
 const roof = 'M777 551 L817 500 Q821 495 829 497 L936 506 L958 554 L853 547 Z';
 
+const treeBranches = 'M-3 -78 Q-31 -114 -56 -128 L-51 -135 Q-22 -124 0 -98 Q22 -126 44 -149 L50 -145 Q22 -112 7 -80 Z';
+const treeTrunk = 'M-12 1 Q-3 -36 -8 -78 L-10 -137 L0 -145 L6 -88 Q11 -47 17 0 Q3 -5 -12 1 Z';
+
+const treeCrown = 'M-80 -131 Q-106 -151 -84 -175 Q-89 -201 -59 -208 Q-52 -233 -22 -227 Q-4 -251 24 -234 Q45 -240 59 -216 Q84 -220 88 -195 Q114 -179 95 -158 Q104 -135 76 -129 Q65 -109 43 -122 Q23 -113 7 -134 Q-12 -114 -30 -126 Q-51 -108 -66 -128 Z';
+
+const treeLitCrown = 'M-84 -161 Q-95 -181 -65 -198 Q-66 -220 -33 -220 Q-15 -239 12 -230 Q37 -234 53 -211 Q77 -217 84 -191 Q65 -183 56 -194 Q37 -178 20 -193 Q1 -173 -17 -185 Q-36 -162 -54 -173 Q-71 -154 -84 -161 Z';
+
+// Trees on the bank facing the foreground bend.
+const riversideTrees = [
+  [123, 592, 1.25, false],
+  [61, 606, .52, true],
+];
+
 function setup() {
   createCanvas(W, H);
   smooth();
@@ -114,6 +127,7 @@ function drawMountains() {
 
 function drawWater() {
   const water = paint(river, wash(429, 770, ['#d4b4a0', '#83a5af', '#467c99', '#325f83']), '#616e49', 4);
+  drawTreeReflections(water);
   hatch(water, [0, 428, 672, 769], 9500, ['#e3d7b6', '#b2d1c8', '#365f83', '#74a6af'], [26, -1], .34);
   const sand = paint('M0 759 C100 724 209 713 283 675 C361 633 376 604 347 567 C320 527 385 525 445 529 C514 537 572 514 569 480 C568 466 570 460 585 453 C571 467 577 473 578 485 C583 525 522 552 447 543 C392 536 345 540 359 559 C400 608 379 646 296 688 C216 728 95 737 0 776 Z', '#b7aa70');
   hatch(sand, [0, 453, 586, 777], 8500, ['#dfc495', '#556b4f', '#766e4c'], [10, -5], .44);
@@ -125,6 +139,39 @@ function drawWater() {
     stroke(56, 98, 52, random(65, 155));
     line(x, y, x + random(-5, 5), y - random(3, 15));
   }
+}
+
+function drawTreeReflections(water) {
+  const ctx = drawingContext;
+  ctx.save();
+  ctx.clip(water);
+  const shapes = [
+    [new Path2D(treeTrunk), '#4d5146'],
+    [new Path2D(treeBranches), '#4d5146'],
+    [new Path2D(treeCrown), '#28463c'],
+    [new Path2D(treeLitCrown), '#738354'],
+  ];
+
+  // Reflect the bank trees in broken horizontal bands beneath the water hatching.
+  for (const [x, y, size, mirrored] of riversideTrees) {
+    const depth = size * .49;
+    for (let row = 33; row < 244 * depth; row += 2.5) {
+      const wave = Math.sin(row * .29) * 4 + Math.sin(row * .087) * 7;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, y + row, W, 1.65 + .65 * Math.sin(row * .41));
+      ctx.clip();
+      ctx.translate(x + wave, y);
+      ctx.scale(mirrored ? -size : size, -depth);
+      ctx.globalAlpha = (.92 - row / (560 * depth)) * (.82 + .18 * Math.cos(row * .73));
+      for (const [shape, shade] of shapes) {
+        ctx.fillStyle = shade;
+        ctx.fill(shape);
+      }
+      ctx.restore();
+    }
+  }
+  ctx.restore();
 }
 
 function drawRoads() {
@@ -174,10 +221,10 @@ function drawTrees() {
     const y = random(431, 469);
     if (x < 583 || x > 733) tree(x, y, random(.08, .21), i % 2 === 0);
   }
-  tree(123, 592, 1.25);
+  tree(...riversideTrees[0]);
   tree(1083, 620, 1.47, true);
   tree(1151, 573, .76);
-  tree(61, 606, .52, true);
+  tree(...riversideTrees[1]);
   tree(986, 580, .45);
 }
 
@@ -185,10 +232,10 @@ function tree(x, y, size, mirrored = false) {
   push();
   translate(x, y);
   scale(mirrored ? -size : size, size);
-  const trunk = paint('M-12 1 Q-3 -36 -8 -78 L-10 -137 L0 -145 L6 -88 Q11 -47 17 0 Q3 -5 -12 1 Z', '#795540');
-  paint('M-3 -78 Q-31 -114 -56 -128 L-51 -135 Q-22 -124 0 -98 Q22 -126 44 -149 L50 -145 Q22 -112 7 -80 Z', '#795540');
-  const crown = paint('M-80 -131 Q-106 -151 -84 -175 Q-89 -201 -59 -208 Q-52 -233 -22 -227 Q-4 -251 24 -234 Q45 -240 59 -216 Q84 -220 88 -195 Q114 -179 95 -158 Q104 -135 76 -129 Q65 -109 43 -122 Q23 -113 7 -134 Q-12 -114 -30 -126 Q-51 -108 -66 -128 Z', '#557249');
-  const litCrown = paint('M-84 -161 Q-95 -181 -65 -198 Q-66 -220 -33 -220 Q-15 -239 12 -230 Q37 -234 53 -211 Q77 -217 84 -191 Q65 -183 56 -194 Q37 -178 20 -193 Q1 -173 -17 -185 Q-36 -162 -54 -173 Q-71 -154 -84 -161 Z', '#78934f');
+  const trunk = paint(treeTrunk, '#795540');
+  paint(treeBranches, '#795540');
+  const crown = paint(treeCrown, '#557249');
+  const litCrown = paint(treeLitCrown, '#78934f');
   const density = .2 + size * .8;
   hatch(trunk, [-13, -133, 17, 2], 260 * density, ['#c79c70', '#483f32'], [1, -15], .42);
   hatch(crown, [-104, -242, 111, -109], 3600 * density, ['#354f3f', '#8d9b50', '#506b41', '#bbc16a'], [7, -6], .44);
