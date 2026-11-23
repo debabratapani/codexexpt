@@ -259,12 +259,14 @@ function tree(x, y, size, mirrored = false) {
 }
 
 function drawCottage() {
+  push();
+  translate(-281, -295);
+  scale(1.48, 1.30);
   const litWall = paint('M791 551 L851 545 L852 623 L790 617 Z', '#f4d99f', '#8f664e', 2);
   const sideWall = paint('M851 545 L900 514 L943 549 L943 610 L852 623 Z', '#dfb77c', '#8f664e', 2);
-  paint('M898 518 L901 490 L915 489 L916 523 Z', '#a65f47', '#805344', 2);
   hatch(litWall, [790, 544, 854, 624], 590, ['#fff0b5', '#d39766'], [3, 9], .39);
   hatch(sideWall, [850, 514, 943, 625], 800, ['#f7d397', '#a2684c'], [4, 8], .33);
-  const tiles = paint(roof, wash(495, 553, ['#c97555', '#a9443a', '#82392f']), '#803933', 3);
+  const tiles = paint(roof, wash(495, 553, ['#df8364', '#cd6d52', '#b45549']), '#803933', 3);
   const ctx = drawingContext;
   ctx.save();
   ctx.clip(tiles);
@@ -281,16 +283,23 @@ function drawCottage() {
   }
   ctx.restore();
   hatch(tiles, [775, 495, 963, 556], 1250, ['#e99567', '#713735', '#d06c50'], [5, 2], .34);
-  paint('M850 546 L934 505 L960 554 L944 555 L932 517 L853 552 Z', '#873c35');
+  paint('M850 546 L934 505 L960 554 L944 555 L932 517 L853 552 Z', '#a24f44');
   paint('M849 624 L849 589 Q849 579 862 578 Q871 578 871 587 L870 621 Z', '#794d39', '#684436');
-  paint('M841 624 L877 620 L882 627 L843 632 Z', '#c09b6a');
-  paint('M800 567 L832 565 L831 588 L800 589 Z M890 565 L922 560 L922 587 L890 591 Z', '#ffdb83', '#805642', 3);
-  stroke('#a16946');
+  paint('M837 624 L876 621 L884 628 L841 632 Z', '#d5c6b4', '#ac927b');
+  paint('M840 630 L884 627 L887 632 L841 636 Z', '#bda792', '#9d826d');
+  stroke('#d49d63');
+  strokeWeight(1);
+  line(856, 586, 856, 620);
+  line(861, 583, 861, 621);
+  line(866, 586, 866, 620);
+  paint('M800 567 L832 565 L831 588 L800 589 Z M890 565 L922 560 L922 587 L890 591 Z', '#9abfda', '#805642', 3);
+  stroke('#765542');
   strokeWeight(2);
   line(816, 566, 816, 588);
   line(800, 578, 832, 576);
   line(905, 562, 906, 589);
   line(890, 578, 922, 573);
+  pop();
 }
 
 function drawBirds() {
