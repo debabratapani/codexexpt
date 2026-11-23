@@ -36,8 +36,8 @@ const treeLitCrown = 'M-84 -161 Q-95 -181 -65 -198 Q-66 -220 -33 -220 Q-15 -239 
 
 // Trees on the bank facing the foreground bend.
 const riversideTrees = [
-  [123, 592, 1.25, false],
-  [61, 606, .52, true],
+  [145, 424, .55, false],
+  [382, 352, .25, true],
 ];
 
 function setup() {
@@ -231,16 +231,32 @@ function drawPaper() {
 }
 
 function drawTrees() {
+  randomSeed(SEED + 41);
   for (let i = 0; i < 49; i++) {
     const x = random(W);
-    const y = random(431, 469);
-    if (x < 583 || x > 733) tree(x, y, random(.08, .21), i % 2 === 0);
+    const y = random(333, 374);
+    if (x < 630 || x > 770) tree(x, y, random(.08, .24), i % 2 === 0);
   }
   tree(...riversideTrees[0]);
-  tree(1083, 620, 1.47, true);
-  tree(1151, 573, .76);
   tree(...riversideTrees[1]);
-  tree(986, 580, .45);
+  tree(858, 459, .9, true);
+  tree(1136, 348, .44);
+  drawFramingTree();
+}
+
+function drawFramingTree() {
+  const trunk = paint(
+    'M0 688 Q8 583 19 541 Q32 432 27 324 Q34 259 6 211 L0 179 L11 174 Q46 207 55 260 Q80 207 108 171 Q148 125 180 97 L195 106 Q163 147 137 173 Q174 161 217 132 L224 143 Q203 168 171 177 Q125 196 94 238 Q75 268 66 313 Q55 383 45 495 Q36 601 47 704 Z',
+    wash(95, 705, ['#b77d44', '#aa633b', '#bc7a54']), '#996343', 1.6);
+  hatch(trunk, [0, 85, 228, 707], 11500, ['#f9cca0', '#793f31', '#de9c59', '#965330'], [-4, 17], .55);
+  const foliage = paint(
+    'M0 11 Q21 -4 43 11 Q60 -4 87 12 Q112 -1 128 7 Q158 -3 185 14 Q204 -1 223 16 Q257 -1 286 14 Q319 3 344 18 Q371 17 381 37 Q412 32 424 52 Q451 55 451 75 Q477 96 467 112 Q483 137 465 153 Q438 161 419 148 Q409 167 388 152 Q367 175 347 155 Q331 168 311 157 Q291 179 274 156 Q249 174 222 147 Q206 165 196 142 Q173 144 165 126 Q142 151 124 124 Q96 145 78 127 Q53 159 33 130 Q17 164 0 140 Z',
+    wash(0, 171, ['#b7cf6e', '#72a64e', '#478b51']), '#589454', 1.5);
+  hatch(foliage, [0, 0, 480, 176], 13800, ['#e9df70', '#b5d55e', '#38824b', '#28784a', '#75b951', '#f5e398'], [11, -11], .53);
+  const branches = paint(
+    'M125 191 Q155 166 175 177 Q183 155 204 162 Q220 139 248 153 Q272 139 285 163 Q312 153 324 178 Q351 165 367 189 Q377 209 355 219 Q363 243 339 248 Q319 265 300 242 Q294 271 271 259 Q266 286 243 269 Q229 283 217 262 Q196 265 191 237 Q166 250 154 229 Q128 237 125 213 Z',
+    wash(150, 276, ['#a8c766', '#659d50', '#3e8e57']), '#578d4e', 1.5);
+  hatch(branches, [123, 139, 378, 282], 7200, ['#e2d96b', '#69ae50', '#267344', '#b0c965'], [6, -10], .54);
 }
 
 function tree(x, y, size, mirrored = false) {
@@ -249,12 +265,12 @@ function tree(x, y, size, mirrored = false) {
   scale(mirrored ? -size : size, size);
   const trunk = paint(treeTrunk, '#795540');
   paint(treeBranches, '#795540');
-  const crown = paint(treeCrown, '#557249');
-  const litCrown = paint(treeLitCrown, '#78934f');
+  const crown = paint(treeCrown, '#619c56');
+  const litCrown = paint(treeLitCrown, '#a3ba56');
   const density = .2 + size * .8;
   hatch(trunk, [-13, -133, 17, 2], 260 * density, ['#c79c70', '#483f32'], [1, -15], .42);
-  hatch(crown, [-104, -242, 111, -109], 3600 * density, ['#354f3f', '#8d9b50', '#506b41', '#bbc16a'], [7, -6], .44);
-  hatch(litCrown, [-98, -240, 88, -151], 2300 * density, ['#dbbe68', '#aebb61', '#627644'], [8, -6], .49);
+  hatch(crown, [-104, -242, 111, -109], 3600 * density, ['#2b764a', '#88ae49', '#498844', '#c4d775'], [7, -6], .44);
+  hatch(litCrown, [-98, -240, 88, -151], 2300 * density, ['#e8d866', '#b6d360', '#619b4e'], [8, -6], .49);
   pop();
 }
 
